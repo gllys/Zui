@@ -18,7 +18,7 @@ import java.io.File;
 /**
  * Created by zhangletian on 2017/11/15.
  */
-public class OsWithComm extends BaseIOSTest {
+public class   OsWithComm extends BaseIOSTest {
     private static Logger Log = Logger.getLogger(OsWithComm.class.getName());
     @BeforeClass
     public static void beforeClass() throws Exception {
@@ -29,7 +29,7 @@ public class OsWithComm extends BaseIOSTest {
 
         System.setProperty(AppiumServiceBuilder.APPIUM_PATH ,
                 "/Users/zhangletian/.nvm/versions/node/v9.2.0/bin/appium");
-        service = AppiumDriverLocalService.buildDefaultService();
+        service = AppiumDriverLocalService.buildService(new AppiumServiceBuilder().withIPAddress("127.0.0.1").usingPort(4723));
         service.start();
         if(service==null && !service.isRunning())
          {
@@ -38,7 +38,7 @@ public class OsWithComm extends BaseIOSTest {
             throw new AppiumServerHasNotBeenStartedLocallyException("An appium server node is not started!");
         }
         File appDir = new File("src/main/resources");
-        File app = new File(appDir, "ostest.ipa");
+        File app = new File(appDir, "TestApp.app.zip");
 //        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
 //        desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "10.2.1");
 //        desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "quli");
@@ -61,7 +61,9 @@ public class OsWithComm extends BaseIOSTest {
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
+        capabilities.setCapability(IOSMobileCapabilityType.SHOW_IOS_LOG,"True");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+
         driver = new IOSDriver<>(service.getUrl(), capabilities);
     }
 }

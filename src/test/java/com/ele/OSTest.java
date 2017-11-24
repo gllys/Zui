@@ -15,5 +15,14 @@ public class OSTest extends OsWithComm {
         int widht = driver.manage().window().getSize().getWidth();
         Log.info(height+","+widht);
 
+
+        try{
+            Thread.sleep(50000);
+        }
+        catch (InterruptedException e){
+            e.printStackTrace();
+        }
+
+
     }
 }
